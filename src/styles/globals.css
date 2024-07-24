@@ -1,33 +1,55 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+* {
+  font-family: 'Montserrat', sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.ant-collapse-content-box {
+  padding: 0;
+  background: #fff;
+}
+/* ant-checkbox-input not :checked */
+.ant-checkbox-input:not(:checked) + .ant-checkbox-inner {
+  background: #EDEDED
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+/* ant-checkbox-input :checked */
+.ant-checkbox-input:checked + .ant-checkbox-inner {
+  background: #EF4444;
+  border-color: #EF4444;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* ant-checkbox-input :checked hover */
+.ant-checkbox-input:checked:hover + .ant-checkbox-inner {
+  background: #EF4444 !important;
+  border-color: #EF4444 !important;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination li {
+  display: inline-block;
+  margin: 0 5px;
+}
+
+.pagination li a {
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  color: #333;
+}
+
+.pagination li a:hover {
+  background: #f0f0f0;
+}
+
+.route-current {
+  color: #EF4444 !important;
 }
