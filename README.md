@@ -55,5 +55,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Credentials for login:
 - Admin: admin@gmail.com, 12345678
 - Manager: manager@gmail.com, 12345678
-- Viewer: viewe1@gmail.com, 12345678 (you can add new user with role viewer)
+- Viewer: viewer1@gmail.com, 12345678 (you can add new user with role viewer)
 - protected routes: admin, manager, viewer with role-based access control (RBAC)
