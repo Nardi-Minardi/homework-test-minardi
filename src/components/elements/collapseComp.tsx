@@ -1,26 +1,23 @@
 import React, { useState, useEffect } from "react";
 import type { CollapseProps } from "antd";
 import { Collapse, Radio } from "antd";
-import RangePrice from "./rangePrice";
 import { dataSort } from "@/libs/data";
 import axios from "axios";
 import { API_URL } from "@/config";
 import { filterByCatergory } from "@/store/slices/productSlice";
 import { useDispatch } from "react-redux";
 
-const renderContent = (key: string) => {
-  if (key === "1") {
-    return;
-  } else if (key === "2") {
-    return <RadioGroupComp />;
-  }
+type CollapseCompProps = {
+  onFilterCategory: (category: string) => void;
+  selectedCategory: string;
+  setSelectedCategory: (category: string) => void;
 };
 
 const CollapseComp = ({
   onFilterCategory,
   selectedCategory,
   setSelectedCategory,
-}) => {
+}: CollapseCompProps) => {
   const dispatch = useDispatch();
   const [categories, setCategories] = useState<string[]>([]);
 

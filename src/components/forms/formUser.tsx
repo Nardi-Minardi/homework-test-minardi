@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import ButtonComp from "../buttons/buttonComp";
 import Link from "next/link";
-import { productFormSchema } from "@/utils/validation";
-import { Button, Form, Input, Select, Space } from "antd";
+import { Button, Form, Input, Select, Space} from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { addProduct, editProduct } from "@/store/slices/productSlice";
 import { API_URL } from "@/config";
@@ -18,9 +16,8 @@ type FormuserProps = {
   form?: any;
   isEdit?: boolean;
   dataEdit?: any;
+  fetchUser: () => void;
 };
-
-type ValidationSchemaType = z.infer<typeof productFormSchema>;
 
 const Formuser = ({ open, setOpen, form, isEdit, dataEdit, fetchUser }: FormuserProps) => {
   const dispatch = useDispatch();
@@ -32,7 +29,11 @@ const Formuser = ({ open, setOpen, form, isEdit, dataEdit, fetchUser }: Formuser
   const onSubmit = () => {
     const values = form.getFieldsValue();
     if (isEdit) {
-      dispatch(editUser({ id: dataEdit.id, ...values })).then(() => {
+      const params = {
+        id: dataEdit.id,
+        ...values,
+      };
+      dispatch(editUser(params)).then(() => {
         toast.success("Success edit user");
         fetchUser();
         form.resetFields();
@@ -71,8 +72,8 @@ const Formuser = ({ open, setOpen, form, isEdit, dataEdit, fetchUser }: Formuser
         style={{ width: "100%" }}
         rules={[{ required: true, message: "Gender is required" }]}>
         <Select placeholder='Select gender'>
-          <Option value='male'>Male</Option>
-          <Option value='female'>Female</Option>
+          <Select.Option value='male'>Male</Select.Option>
+          <Select.Option value='female'>Female</Select.Option>
         </Select>
       </Form.Item>
       <Form.Item
@@ -80,8 +81,8 @@ const Formuser = ({ open, setOpen, form, isEdit, dataEdit, fetchUser }: Formuser
         style={{ width: "100%" }}
         rules={[{ required: true, message: "Status is required" }]}>
         <Select placeholder='Select status'>
-          <Option value='active'>Active</Option>
-          <Option value='inactive'>InActive</Option>
+          <Select.Option value='active'>Active</Select.Option>
+          <Select.Option value='inactive'>InActive</Select.Option>
         </Select>
       </Form.Item>
       <Form.Item>

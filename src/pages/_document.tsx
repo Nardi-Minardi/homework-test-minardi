@@ -2,7 +2,7 @@ import React from "react";
 import { Html, Head, Main, NextScript } from "next/document";
 import { APP_NAME, APP_DESCRIPTION } from "@/config";
 
-export default function Document(props) {
+export default function Document(props: any) {
   return (
     <Html lang='en'>
       <Head>

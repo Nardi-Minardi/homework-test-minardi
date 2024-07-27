@@ -19,8 +19,8 @@ const User = () => {
   const [form] = Form.useForm();
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [dataEdit, setDataEdit] = useState<any>({});
-  const { loading } = useSelector((state) => state.user);
-  const { dataOrder: order } = useSelector((state) => state.product);
+  const { loading } = useSelector((state:any) => state.user);
+  const { dataOrder: order } = useSelector((state:any) => state.product);
   const [user, setUser] = useState<string[]>([]);
 
   useEffect(() => {
@@ -45,8 +45,8 @@ const User = () => {
     setOpen(false);
   };
 
-  const onDelete = (data) => {
-    const checkOrder = order.find((item) => item.userId === data.id);
+  const onDelete = (data:any) => {
+    const checkOrder = order.find((item:any) => item.userId === data.id);
     //if user id in order, dont delete it
     if (checkOrder) {
       toast.error("User has order");
@@ -64,13 +64,13 @@ const User = () => {
     }
     
 
-    dispatch(deleteUser(data.id)).then(() => {
+    dispatch(deleteUser(data)).then(() => {
       fetchUser();
       toast.success("Delete user success");
     });
   };
 
-  const onEdit = (data) => {
+  const onEdit = (data:any) => {
     setOpen(true);
     setIsEdit(true);
     const { id, name, gender, status } = data;

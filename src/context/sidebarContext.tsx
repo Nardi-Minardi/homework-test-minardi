@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useState} from "react";
 
-const SidebarContext = createContext();
+const SidebarContext = createContext<any>(null);
 
 type SidebarProviderProps = {
   children: React.ReactNode;

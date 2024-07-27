@@ -1,18 +1,16 @@
 import React, {useEffect} from "react";
 import UserDropdown from "../elements/userDropdown";
-import SearchInput from "../elements/searchInput";
-import MenuDropdown from "../elements/menuDropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser, fetchUser } from "@/store/slices/authSlice";
 import { useGlobalSidebarContext } from "@/context/sidebarContext";
 import { Button } from "antd";
 import Link from "next/link";
+import {ThunkDispatch} from "@reduxjs/toolkit";
 
 const Header = () => {
-  const { isSidebarOpen, closeSidebar, showSidebar } =
-    useGlobalSidebarContext();
-  const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
+  const { isSidebarOpen, closeSidebar, showSidebar }: any = useGlobalSidebarContext();
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+  const { user } = useSelector((state: any) => state.auth);
 
   useEffect(() => {
     dispatch(fetchUser());

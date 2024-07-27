@@ -1,22 +1,19 @@
 import React, { use, useEffect, useState } from "react";
 import { useRouter, withRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import RangePrice from "@/components/elements/rangePrice";
 import CollapseComp from "@/components/elements/collapseComp";
 import { listProduct } from "@/store/slices/productSlice";
 import CardProduct from "@/components/elements/cardProduct";
 import { Select } from "antd";
 import LoadingComp from "@/components/elements/loadingComp";
 import ReactPaginate from "react-paginate";
-import BreadcrumbComp from "@/components/elements/breadCrumbComp";
 import HomeSidebar from "@/components/layouts/homeSidebar";
 import Header from "@/components/layouts/header";
 import HomeLayout from "@/components/layouts/homeLayout";
-
 const Home = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { data: product, loading } = useSelector((state) => state.product);
+  const { data: product, loading } = useSelector((state:any) => state.product);
   const [page, setPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
   const [total, setTotal] = useState<number>(0);
@@ -42,7 +39,7 @@ const Home = () => {
   };
 
   const onFilterCategory = (value: string) => {
-    const filter = product.filter((item) => item.category === value);
+    const filter = product.filter((item:any) => item.category === value);
     setFiltredData(filter);
     setTotal(filter.length);
   };
@@ -84,7 +81,7 @@ const Home = () => {
                 className='w-full border border-gray-300 p-2 rounded-md outline-none focus:border-blue-500'
                 onChange={(e) => {
                   const value = e.target.value;
-                  const search = product.filter((item) => {
+                  const search = product.filter((item:any) => {
                     return item.title
                       .toLowerCase()
                       .includes(value.toLowerCase());
@@ -104,9 +101,9 @@ const Home = () => {
             <>
               <div className='pt-5 cursor-pointer relative grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4'>
                 {loading && <LoadingComp />}
-                {filtredData.map((item) => (
+                {filtredData.map((item, index) => (
                   <div
-                    key={item.id}
+                    key={index}
                     onClick={() => goToDetail(item)}
                     className='cursor-pointer'>
                     <CardProduct item={item} />
@@ -129,7 +126,6 @@ const Home = () => {
                     setFiltredData(product.slice(offset, offset + limit));
                   }}
                   containerClassName={"pagination"}
-                  subContainerClassName={"pages pagination"}
                   activeClassName={"active"}
                 />
               </div>

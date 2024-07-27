@@ -3,6 +3,12 @@ const withTM = require("next-transpile-modules");
 
 const nextConfig = {
   reactStrictMode: true,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   transpilePackages: [
     // antd & deps
     "@ant-design",

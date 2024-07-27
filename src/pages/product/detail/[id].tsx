@@ -7,13 +7,14 @@ import RecomendedComp from "@/components/elements/recomendedComp";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "@/store/slices/authSlice";
 import { toast } from "react-hot-toast";
+import {ThunkDispatch} from "@reduxjs/toolkit";
 
 const DetailProduct = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const router = useRouter();
   const { id, title, price, image, description } = router.query;
   const [qty, setQty] = useState(1);
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state:any) => state.auth);
 
   useEffect(() => {
     dispatch(fetchUser());
@@ -33,7 +34,7 @@ const DetailProduct = () => {
         <div className='flex flex-col md:flex-row'>
           <div className='w-full md:w-1/2 flex justify-center items-center'>
             <img
-              src={image}
+              src={image as string}
               className='w-96 h-96 object-contain'
               alt='product'
             />

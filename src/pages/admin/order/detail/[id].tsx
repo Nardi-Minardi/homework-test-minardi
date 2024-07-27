@@ -13,9 +13,8 @@ const DetailOrder = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { id, name, email, status, productName, image, date } = router.query;
-  console.log("router", router.query);
   const [qty, setQty] = useState(1);
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state:any) => state.auth);
 
   useEffect(() => {
     dispatch(fetchUser());
@@ -38,7 +37,7 @@ const DetailOrder = () => {
         <div className='flex flex-col md:flex-row'>
           <div className='w-full md:w-1/2 flex justify-center items-center'>
             <img
-              src={image}
+              src={image as string}
               className='w-96 h-96 object-contain'
               alt='product'
             />

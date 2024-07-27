@@ -18,7 +18,7 @@ const Product = () => {
   const [form] = Form.useForm();
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [dataEdit, setDataEdit] = useState<any>({});
-  const { data: product, loading } = useSelector((state) => state.product);
+  const { data: product, loading } = useSelector((state:any) => state.product);
 
   useEffect(() => {
     dispatch(listProduct());
@@ -35,13 +35,13 @@ const Product = () => {
     setOpen(false);
   };
 
-  const onDelete = (id) => {
+  const onDelete = (id: string) => {
     dispatch(deleteProduct(id)).then(() => {
       toast.success("Delete product success");
     });
   };
 
-  const onEdit = (data) => {
+  const onEdit = (data: any) => {
     setOpen(true);
     setIsEdit(true);
     const { id, title, category, price, description } = data;

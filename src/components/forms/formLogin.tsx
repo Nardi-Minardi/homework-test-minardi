@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import ButtonComp from "../buttons/buttonComp";
 import Link from "next/link";
 import { loginFormSchema } from "@/utils/validation";
 import { useSelector } from "react-redux";
 import { Button } from "antd";
 
 type FormLoginProps = {
-  onLogin: () => void;
+  onLogin: (data: any) => void;
 };
 
 type ValidationSchemaType = z.infer<typeof loginFormSchema>;
@@ -46,7 +45,6 @@ const FormLogin = ({ onLogin }: FormLoginProps) => {
               className='border w-full border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#EB3F36] focus:ring-opacity-50'
               type='text'
               placeholder='Username'
-              name='username'
               {...register("username")}
             />
             {errors.username && (
@@ -60,7 +58,6 @@ const FormLogin = ({ onLogin }: FormLoginProps) => {
               className='border w-full border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#EB3F36] focus:ring-opacity-50'
               type={showPassword ? "text" : "password"}
               placeholder='Password'
-              name='password'
               {...register("password")}
             />
             <span

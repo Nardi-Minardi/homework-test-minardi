@@ -27,7 +27,7 @@ export const listProduct = createAsyncThunk(
           return data;
         });
       return response;
-    } catch (error) {
+    } catch (error:any) {
       return rejectWithValue(error.response);
     }
   }
@@ -35,7 +35,7 @@ export const listProduct = createAsyncThunk(
 
 export const addProduct = createAsyncThunk(
   "product/add",
-  async (params, { rejectWithValue }) => {
+  async (params: any, { rejectWithValue }) => {
     const { title, price, description, image, category } = params;
     try {
       const url = `${API_URL}/products`;
@@ -55,7 +55,7 @@ export const addProduct = createAsyncThunk(
         }
       );
       return response.data;
-    } catch (error) {
+    } catch (error:any) {
       return rejectWithValue(error.response);
     }
   }
@@ -63,7 +63,7 @@ export const addProduct = createAsyncThunk(
 
 export const editProduct = createAsyncThunk(
   "product/edit",
-  async (params, { rejectWithValue }) => {
+  async (params: any, { rejectWithValue }) => {
     const { id, title, price, description, image, category } = params;
     try {
       const url = `${API_URL}/products/${id}`;
@@ -84,7 +84,7 @@ export const editProduct = createAsyncThunk(
       );
       // console.log('response edit', response);
       return response.data;
-    } catch (error) {
+    } catch (error:any) {
       return rejectWithValue(error.response);
     }
   }
@@ -92,7 +92,7 @@ export const editProduct = createAsyncThunk(
 
 export const deleteProduct = createAsyncThunk(
   "product/delete",
-  async (id, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
     try {
       const url = `${API_URL}/products/${id}`;
       const response = await axios.delete(url, {
@@ -101,7 +101,7 @@ export const deleteProduct = createAsyncThunk(
         },
       });
       return response.data;
-    } catch (error) {
+    } catch (error:any) {
       return rejectWithValue(error.response);
     }
   }
@@ -117,9 +117,9 @@ export const filterByCatergory = createAsyncThunk(
           "Content-Type": "application/json",
         },
       });
-      const data = response.data.filter((item) => item.category === category);
+      const data = response.data.filter((item:any) => item.category === category);
       return data;
-    } catch (error) {
+    } catch (error:any) {
       return rejectWithValue(error.response);
     }
   }
@@ -137,7 +137,7 @@ export const listOrder = createAsyncThunk(
         },
       });
       return response.data;
-    } catch (error) {
+    } catch (error:any) {
       return rejectWithValue(error.response);
     }
   }
@@ -145,7 +145,7 @@ export const listOrder = createAsyncThunk(
 
 export const updateOrderStatus = createAsyncThunk(
   "order/OrderStatus",
-  async (params, { rejectWithValue }) => {
+  async (params: { id: string; status: string }, { rejectWithValue }) => {
     try {
       const url = `${API_ORDER}/order`;
       const response = await axios.put(url, {
@@ -154,7 +154,7 @@ export const updateOrderStatus = createAsyncThunk(
         },
       });
       return response.data;
-    } catch (error) {
+    } catch (error:any) {
       return rejectWithValue(error.response);
     }
   }
@@ -214,7 +214,7 @@ const productSlice = createSlice({
     });
     builder.addCase(deleteProduct.fulfilled, (state, { payload }) => {
       state.loading = false;
-      const newData = state.data.filter((item) => item?.id !== payload?.id);
+      const newData = state.data.filter((item:any) => item?.id !== payload?.id);
       state.data = newData;
     });
     builder.addCase(deleteProduct.rejected, (state, { payload }) => {
@@ -251,7 +251,7 @@ const productSlice = createSlice({
     });
     builder.addCase(updateOrderStatus.fulfilled, (state, { payload }) => {
       state.loading = false;
-      const newData = state.dataOrder.map((item) => {
+      const newData = state.dataOrder.map((item:any) => {
         if (item.id === payload.id) {
           const newItem = {
             ...item,

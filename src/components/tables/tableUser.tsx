@@ -3,9 +3,9 @@ import { Table, Image, Space } from "antd";
 import type { TableColumnsType } from "antd";
 
 type TableUserProps = {
-  dataSource: DataType[];
+  dataSource: any;
   loading: boolean;
-  onEdit: (data: DataType) => void;
+  onEdit: (data: any) => void;
   onDelete: (id: number) => void;
 };
 
@@ -15,14 +15,14 @@ const TableUser = ({
   onEdit,
   onDelete,
 }: TableUserProps) => {
-  const columns: TableColumnsType<DataType> = [
+  const columns: TableColumnsType<any> = [
     {
       title: "ID",
       dataIndex: "id",
       width: 150,
       key: "id",
       defaultSortOrder: "descend",
-      sorter: (a: DataType, b: DataType) => a.id - b.id,
+      sorter: (a: any, b: any) => a.id - b.id,
     },
     {
       title: "Name",
@@ -79,7 +79,7 @@ const TableUser = ({
         },
       ],
       onFilter: (value, record) => record.status.indexOf(value) === 0,
-      render: (text: string, record: DataType) => (
+      render: (text: string, record: any) => (
         <Space size='middle'>
           <span
             className={`${
@@ -102,7 +102,7 @@ const TableUser = ({
       title: "Action",
       key: "operation",
       width: 150,
-      render: (text: string, record: DataType) => (
+      render: (text: string, record: any) => (
         <Space size='middle'>
           <button onClick={() => onEdit(record)} className='text-green-500'>
             Edit

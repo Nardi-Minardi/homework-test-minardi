@@ -2,14 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import ButtonComp from "../buttons/buttonComp";
 import Link from "next/link";
-import { productFormSchema } from "@/utils/validation";
 import { Button, Form, Input, Select } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { addProduct, editProduct } from "@/store/slices/productSlice";
 import { API_URL } from "@/config";
 import { toast } from "react-hot-toast";
+import {ThunkDispatch} from "@reduxjs/toolkit";
 
 type FormProductProps = {
   open: boolean;
@@ -19,8 +18,6 @@ type FormProductProps = {
   dataEdit?: any;
 };
 
-type ValidationSchemaType = z.infer<typeof productFormSchema>;
-
 const FormProduct = ({
   open,
   setOpen,
@@ -28,7 +25,7 @@ const FormProduct = ({
   isEdit,
   dataEdit,
 }: FormProductProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
   const [categories, setCategories] = useState<string[]>([]);
 
@@ -48,10 +45,13 @@ const FormProduct = ({
 
   const onSubmit = () => {
     const values = form.getFieldsValue();
-    console.log(values);
     if (isEdit) {
-      dispatch(editProduct({ id: dataEdit.id, ...values })).then(() => {
-        toast.success("Product updated");
+      const params = {
+        id: dataEdit.id,
+        ...values,
+      };
+      dispatch(editProduct(params)).then(() => {
+        toast.success("Product edited");
         form.resetFields();
         setOpen(false);
       });

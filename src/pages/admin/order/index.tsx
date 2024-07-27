@@ -19,7 +19,7 @@ const Order = () => {
   const [form] = Form.useForm();
 
   const [loading, setLoading] = useState<boolean>(false);
-  const { data: user } = useSelector((state) => state.user);
+  const { data: user } = useSelector((state:any) => state.user);
   const [order, setOrder] = useState<string[]>([]);
 
   useEffect(() => {
@@ -33,17 +33,6 @@ const Order = () => {
       const data = res.payload;
       setOrder(data);
     });
-  };
-
-  const showModal = () => {
-    setIsEdit(false);
-    form.resetFields();
-    setOpen(true);
-  };
-
-  const onCancel = () => {
-    form.resetFields();
-    setOpen(false);
   };
 
   const onUpdateStatus = async (
@@ -64,13 +53,11 @@ const Order = () => {
   };
 
   const goToDetail = (data: any) => {
-    console.log(data);
     // //send parameter data
     const { id, userId, status, products, date } = data;
-    console.log("products", products);
     const image = products[0].image;
     const productName = products[0].productName;
-    const userData = user?.filter((item) => item.id === userId);
+    const userData = user?.filter((item:any) => item.id === userId);
     const { name, email } = userData[0];
     router.push({
       pathname: `/admin/order/detail/${id}`,

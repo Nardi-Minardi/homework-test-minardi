@@ -3,12 +3,13 @@ import { useContext, useEffect } from "react";
 import { fetchUser } from "@/store/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { NextPage } from "next";
+import {ThunkDispatch} from "@reduxjs/toolkit";
 
-export type TRole = "admin" | "user";
+export type TRole = "admin" | "manager";
 
 export function withAuth(WrappedComponent: NextPage, role: TRole) {
   const Wrapper = (props: any) => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
     const router = useRouter();
 
     const checkRole = async () => {

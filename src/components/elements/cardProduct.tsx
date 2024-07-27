@@ -3,12 +3,7 @@ import { FaStar } from "react-icons/fa";
 import RatingComp from "@/components/elements/ratingComp";
 
 type CardProductProps = {
-  item: {
-    id: number;
-    name: string;
-    images: string[];
-    product_type: any;
-  };
+  item: any;
 };
 
 const CardProduct = ({ item }: CardProductProps) => {

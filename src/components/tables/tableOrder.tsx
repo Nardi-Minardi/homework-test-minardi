@@ -3,11 +3,11 @@ import { Table, Image, Space, Select } from "antd";
 import type { TableColumnsType } from "antd";
 
 type TableOrderProps = {
-  dataSource: DataType[];
+  dataSource: any;
   loading: boolean;
   user: any;
   onUpdateStatus: (id: string, status: string, email: string) => void;
-  goToDetail: (record: DataType) => void;
+  goToDetail: (record: any) => void;
 };
 
 const TableOrder = ({
@@ -17,25 +17,25 @@ const TableOrder = ({
   onUpdateStatus,
   goToDetail
 }: TableOrderProps) => {
-  const columns: TableColumnsType<DataType> = [
+  const columns: TableColumnsType<any> = [
     {
       title: "ID",
       dataIndex: "id",
       width: 150,
       key: "id",
       defaultSortOrder: "descend",
-      sorter: (a: DataType, b: DataType) => a.id - b.id,
+      sorter: (a: any, b: any) => a.id - b.id,
     },
     {
       title: "Name",
       dataIndex: "name",
       width: 150,
       key: "name",
-      render: (text: string, record: DataType) => (
+      render: (text: string, record: any) => (
         <>
           {user
-            ?.filter((user) => user.id === record.userId)
-            .map((item) => (
+            ?.filter((use: any) => use.id === record.userId)
+            .map((item: any) => (
               <div key={item.id}>{item.name}</div>
             ))}
         </>
@@ -46,11 +46,11 @@ const TableOrder = ({
       dataIndex: "email",
       width: 150,
       key: "email",
-      render: (text: string, record: DataType) => (
+      render: (text: string, record: any) => (
         <>
           {user
-            ?.filter((user) => user.id === record.userId)
-            .map((item) => (
+            ?.filter((use: any) => use.id === record.userId)
+            .map((item: any) => (
               <div key={item.id}>{item.email}</div>
             ))}
         </>
@@ -76,12 +76,12 @@ const TableOrder = ({
         },
       ],
       onFilter: (value, record) => record.status.indexOf(value) === 0,
-      render: (text: string, record: DataType) => (
+      render: (text: string, record: any) => (
         <Space size='middle'>
           <Select
             defaultValue={record.status}
             style={{ width: 120 }}
-            onChange={(value) => onUpdateStatus(record.id, value, user?.find((item) => item.id === record.userId)?.email)}
+            onChange={(value) => onUpdateStatus(record.id, value, user?.find((item: any) => item.id === record.userId)?.email)}
           >
             <Select.Option value='shipped'>Shipped</Select.Option>
             <Select.Option value='pending'>Pending</Select.Option>
@@ -96,7 +96,7 @@ const TableOrder = ({
       dataIndex: "action",
       width: 150,
       key: "action",
-      render: (text: string, record: DataType) => (
+      render: (text: string, record: any) => (
         <>
           <Space size='middle'>
             <span className="bg-green-500 p-2 rounded-md text-white cursor-pointer" onClick={() => goToDetail(record)}>Detail</span>

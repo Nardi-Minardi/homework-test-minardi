@@ -1,17 +1,22 @@
 import { listProduct } from "@/store/slices/productSlice";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import {ThunkDispatch} from "@reduxjs/toolkit";
 import LoadingComp from "./loadingComp";
 import CardProduct from "./cardProduct";
 import { useRouter } from "next/router";
 
 const RecomendedComp = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
-  const { data: product, loading } = useSelector((state) => state.product);
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+  const { data: product, loading } = useSelector((state: any) => state.product);
+
+  const getProduct = () => {
+    dispatch(listProduct());
+  };
 
   useEffect(() => {
-    dispatch(listProduct());
+    getProduct();
   }, []);
 
   const goToDetail = (data: any) => {
@@ -36,7 +41,7 @@ const RecomendedComp = () => {
         <LoadingComp />
       ) : (
         <div className='grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4'>
-          {product.slice(0, 3).map((item) => (
+          {product.slice(0, 3).map((item: any) => (
             <div
               key={item.id}
               onClick={() => goToDetail(item)}

@@ -12,11 +12,11 @@ import moment from "moment";
 const Dashboard = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const salesRevenueRef = useRef(null);
+  const salesRevenueRef = useRef<HTMLCanvasElement>(null);
   const userRef = useRef(null);
-  const { data: user } = useSelector((state) => state.user);
+  const { data: user } = useSelector((state: any) => state.user);
   const { data: product, dataOrder: order } = useSelector(
-    (state) => state.product
+    (state: any) => state.product
   );
 
   useEffect(() => {
@@ -49,8 +49,9 @@ const Dashboard = () => {
       "November",
       "December",
     ];
-
-    const ctx = salesRevenueRef.current.getContext("2d");
+    
+    const ctx: any = salesRevenueRef.current?.getContext("2d");
+    
 
     const chart = new Chart(ctx, {
       type: "line",
@@ -85,7 +86,7 @@ const Dashboard = () => {
             <h2 className='text-lg font-semibold'>New User</h2>
             <p className='text-3xl font-bold'>
               {
-                user?.filter((item) =>
+                user?.filter((item:any) =>
                   moment(item.created_at).isSame(new Date(), "day")
                 ).length
               }

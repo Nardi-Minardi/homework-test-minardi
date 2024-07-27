@@ -6,6 +6,7 @@ import { FaRegUser, FaSignOutAlt } from "react-icons/fa";
 
 type UserDropdownProps = {
   onLogout: () => void;
+  user: { email: string };
 };
 
 const UserDropdown = ({ onLogout, user }: UserDropdownProps) => {

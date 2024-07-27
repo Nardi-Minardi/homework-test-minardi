@@ -24,9 +24,9 @@ export const listUser = createAsyncThunk(
         },
       });
       //filter not role user
-      const data = response?.data?.filter((item) => item.role !== "user");
+      const data = response?.data?.filter((item:any) => item.role !== "user");
       return data;
-    } catch (error) {
+    } catch (error:any) {
       return rejectWithValue(error.response);
     }
   }
@@ -34,7 +34,7 @@ export const listUser = createAsyncThunk(
 
 export const addUser = createAsyncThunk(
   "user/add",
-  async (params, { rejectWithValue }) => {
+  async (params: any, { rejectWithValue }) => {
     try {
       const url = `${API_AUTH}/users`;
       const response = await axios.post(
@@ -52,7 +52,7 @@ export const addUser = createAsyncThunk(
         }
       );
       return response.data;
-    } catch (error) {
+    } catch (error:any) {
       return rejectWithValue(error.response);
     }
   }
@@ -60,7 +60,7 @@ export const addUser = createAsyncThunk(
 
 export const editUser = createAsyncThunk(
   "user/edit",
-  async (params, { rejectWithValue }) => {
+  async (params: any, { rejectWithValue }) => {
     const { id, name, status, gender } = params;
     try {
       const url = `${API_AUTH}/users/${id}`;
@@ -80,7 +80,7 @@ export const editUser = createAsyncThunk(
       );
       // console.log('response edit', response);
       return response.data;
-    } catch (error) {
+    } catch (error:any) {
       return rejectWithValue(error.response);
     }
   }
@@ -88,16 +88,16 @@ export const editUser = createAsyncThunk(
 
 export const deleteUser = createAsyncThunk(
   "user/delete",
-  async (id, { rejectWithValue }) => {
+  async (params:any, { rejectWithValue }) => {
     try {
-      const url = `${API_AUTH}/users/${id}`;
+      const url = `${API_AUTH}/users/${params.id}`;
       const response = await axios.delete(url, {
         headers: {
           "Content-Type": "application/json",
         },
       });
       return response.data;
-    } catch (error) {
+    } catch (error:any) {
       return rejectWithValue(error.response);
     }
   }
@@ -157,7 +157,7 @@ const UserSlice = createSlice({
     });
     builder.addCase(deleteUser.fulfilled, (state, { payload }) => {
       state.loading = false;
-      const newData = state.data.filter((item) => item?.id !== payload?.id);
+      const newData = state.data.filter((item:any) => item?.id !== payload?.id);
       state.data = newData;
     });
     builder.addCase(deleteUser.rejected, (state, { payload }) => {

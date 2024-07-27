@@ -1,7 +1,6 @@
 import React from "react";
 import Header from "./header";
 import Sidebar from "./sidebar";
-import BreadcrumbComp from "../elements/breadCrumbComp";
 import { SidebarPovider } from "@/context/sidebarContext";
 
 type MainLayoutProps = {

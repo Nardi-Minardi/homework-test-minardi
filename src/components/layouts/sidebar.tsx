@@ -4,12 +4,13 @@ import { useGlobalSidebarContext } from "@/context/sidebarContext";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser, fetchUser } from "@/store/slices/authSlice";
 import MenuManagerComp from "../elements/menuManager";
+import {ThunkDispatch} from "@reduxjs/toolkit";
 
 type SidebarProps = {
   firstOpen: boolean;
 };
 
-const ModalOverlay = ({ onClick }) => (
+const ModalOverlay = ({ onClick: onClick }: { onClick: () => void }) => (
   <div
     className={`flex md:hidden fixed top-0 right-0 bottom-0 left-0 bg-black/50 z-30`}
     onClick={onClick}
@@ -17,10 +18,9 @@ const ModalOverlay = ({ onClick }) => (
 );
 
 const Sidebar = ({ firstOpen }: SidebarProps) => {
-  const dispatch = useDispatch();
-  const { isSidebarOpen, closeSidebar, showSidebar } =
-    useGlobalSidebarContext();
-  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+  const { isSidebarOpen, closeSidebar, showSidebar }: any = useGlobalSidebarContext();
+  const { user } = useSelector((state: any) => state.auth);
 
   useEffect(() => {
     dispatch(fetchUser());
