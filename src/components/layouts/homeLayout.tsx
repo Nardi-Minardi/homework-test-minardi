@@ -4,22 +4,21 @@ import Sidebar from "./sidebar";
 import BreadcrumbComp from "../elements/breadCrumbComp";
 import { SidebarPovider } from "@/context/sidebarContext";
 
-type MainLayoutProps = {
+type HomeLayoutProps = {
   children: React.ReactNode;
 };
 
-const MainLayout = ({ children }: MainLayoutProps) => {
+const HomeLayout = ({ children }: HomeLayoutProps) => {
   const [firstOpen, setFirstOpen] = React.useState<boolean>(true);
   return (
     <div>
       <SidebarPovider>
         <div className='flex h-full '>
-          <Sidebar 
-          firstOpen={firstOpen}
-          />
           <div className='w-full lg:w-full xl:w-full overflow-hidden'>
             <Header />
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {children}
+            </div>
           </div>
         </div>
       </SidebarPovider>
@@ -27,4 +26,4 @@ const MainLayout = ({ children }: MainLayoutProps) => {
   );
 };
 
-export default MainLayout;
+export default HomeLayout;

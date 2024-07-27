@@ -11,28 +11,16 @@ const RecomendedComp = () => {
   const { data: product, loading } = useSelector((state) => state.product);
 
   useEffect(() => {
-    dispatch(
-      listProduct({
-        keyword: "",
-        price: 0,
-        page: 1,
-        limit: 3,
-        order: ["product_name", "asc"],
-      })
-    );
+    dispatch(listProduct());
   }, []);
 
   const goToDetail = (data: any) => {
     //send parameter data
-    const { id, name, price, images, description } = data;
-    const dataImages = images.map((item: any) => item.image_url);
-    const img = dataImages.join(",");
-
-    // window.location.href = `/product/detail/${id}?name=${name}&price=${price}&images=${img}&description=${description}`;
+    const { id, title, price, image, description } = data;
 
     router.push({
       pathname: `/product/detail/${id}`,
-      query: { id, name, price, description, img },
+      query: { id, title, price, description, image },
     });
   };
 
@@ -40,7 +28,7 @@ const RecomendedComp = () => {
     <div className='py-32'>
       <div className='flex flex-col justify-center items-center'>
         <p className='text-xl text-gray-500 font-bold'>
-          Rekomendasi Untuk Anda
+          Rekomended For You
         </p>
         <div className='border-b-2 border-[#EF4444] w-96 my-4'></div>
       </div>
@@ -48,7 +36,7 @@ const RecomendedComp = () => {
         <LoadingComp />
       ) : (
         <div className='grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4'>
-          {product.map((item) => (
+          {product.slice(0, 3).map((item) => (
             <div
               key={item.id}
               onClick={() => goToDetail(item)}

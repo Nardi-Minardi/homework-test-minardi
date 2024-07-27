@@ -6,14 +6,15 @@ import ButtonComp from "../buttons/buttonComp";
 import Link from "next/link";
 import { loginFormSchema } from "@/utils/validation";
 import { useSelector } from "react-redux";
+import { Button } from "antd";
 
-type formLoginProps = {
+type FormLoginProps = {
   onLogin: () => void;
 };
 
 type ValidationSchemaType = z.infer<typeof loginFormSchema>;
 
-const FormLogin = ({ onLogin }: formLoginProps) => {
+const FormLogin = ({ onLogin }: FormLoginProps) => {
   const { loading } = useSelector((state: any) => state.auth);
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -43,14 +44,14 @@ const FormLogin = ({ onLogin }: formLoginProps) => {
           <div className='flex flex-col space-y-2'>
             <input
               className='border w-full border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#EB3F36] focus:ring-opacity-50'
-              type='email'
-              placeholder='Email'
-              name='email'
-              {...register("email")}
+              type='text'
+              placeholder='Username'
+              name='username'
+              {...register("username")}
             />
-            {errors.email && (
+            {errors.username && (
               <span className='text-red-500 text-xs'>
-                {errors.email.message}
+                {errors.username.message}
               </span>
             )}
           </div>
@@ -79,16 +80,9 @@ const FormLogin = ({ onLogin }: formLoginProps) => {
             Lupa password?
           </Link>
         </div>
-        <ButtonComp
-          color='#fff'
-          background='#EB3F36'
-          width='100%'
-          height={40}
-          loading={loading}
-          onClick={handleSubmit(onSubmit)}
-        >
-          <span>MASUK</span>
-        </ButtonComp>
+        <Button type='primary' block onClick={handleSubmit(onSubmit)}>
+          {loading ? "Loading..." : "Masuk"}
+        </Button>
       </div>
     </>
   );

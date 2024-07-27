@@ -12,24 +12,22 @@ type CardProductProps = {
 };
 
 const CardProduct = ({ item }: CardProductProps) => {
-  const regexName = (name: string) => {
-    //replace all special character
-    return name.replace(/[^a-zA-Z0-9\s]/g, "");
-  };
-
   return (
-    <div className='flex flex-col lg:h-[80vh] xl:h-[80vh] shadow-md p-4 rounded-md'>
-      <img src={item.images[0].image_url} alt={item.name} />
+    <div className='flex flex-col shadow-md p-4 rounded-md h-[250px]'>
+      <img
+        src={item.image}
+        style={{ maxHeight: "100px", width: "100%", objectFit: "contain" }}
+      />
       <div className='flex justify-center flex-col p-2 gap-2 items-center'>
         <p className='text-center font-bold text-gray-600'>
           {" "}
-          {regexName(item.name)}
+          {item.title.length > 20
+            ? item.title.substring(0, 20) + "..."
+            : item.title}
         </p>
-        <p className='text-center text-gray-600'>{item.product_type.name}</p>
+        <p className='text-center text-gray-600'>{item.category}</p>
         <RatingComp rating={5} />
-        <p className='text-center text-[#EB3F36]'>
-          Rp. {item.price?.replace(/\B(?=(\d{3})+(?!\d))/g, ".") || 0}
-        </p>
+        <p className='text-center text-blue-500'>$ {item.price?.toFixed(2)}</p>
       </div>
     </div>
   );

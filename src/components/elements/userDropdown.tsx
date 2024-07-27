@@ -8,15 +8,10 @@ type UserDropdownProps = {
   onLogout: () => void;
 };
 
-const UserDropdown = ({ onLogout }: UserDropdownProps) => {
+const UserDropdown = ({ onLogout, user }: UserDropdownProps) => {
   const items: MenuProps["items"] = [
     {
       key: "1",
-      label: <span>Account</span>,
-      icon: <FaRegUser />,
-    },
-    {
-      key: "2",
       label: <span onClick={onLogout}>Logout</span>,
       icon: <FaSignOutAlt />,
     },
@@ -24,12 +19,13 @@ const UserDropdown = ({ onLogout }: UserDropdownProps) => {
   
   return (
     <Dropdown menu={{ items }} trigger={["click"]}>
-      <a onClick={(e) => e.preventDefault()}>
+      <span onClick={(e) => e.preventDefault()}>
         <Space>
+          <p className='text-sm font-semibold'>{user.email}</p>
           <img src='/user.svg' className='h-6 w-6' alt='cart' />
           <DownOutlined className='h-2 w-2' />
         </Space>
-      </a>
+      </span>
     </Dropdown>
   );
 };

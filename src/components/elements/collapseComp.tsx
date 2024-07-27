@@ -1,114 +1,84 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import type { CollapseProps } from "antd";
-import { Collapse } from "antd";
+import { Collapse, Radio } from "antd";
 import RangePrice from "./rangePrice";
 import { dataSort } from "@/libs/data";
-import RadioGroupComp from "./radioGroupComp";
-
-const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
+import axios from "axios";
+import { API_URL } from "@/config";
+import { filterByCatergory } from "@/store/slices/productSlice";
+import { useDispatch } from "react-redux";
 
 const renderContent = (key: string) => {
-  if (key === "harga") {
-    return <RangePrice />;
-  } else if (key === "origin") {
-    return (
-      <>
-        {dataSort
-          .find((item) => item.key === "origin")
-          ?.children.map((item) => (
-            <RadioGroupComp item={item.name} stock={item.stock} />
-          ))}
-      </>
-    );
-  } else if (key === "species") {
-    return (
-      <>
-        {dataSort
-          .find((item) => item.key === "species")
-          ?.children.map((item) => (
-            <RadioGroupComp item={item.name} stock={item.stock} />
-          ))}
-      </>
-    );
-  } else if (key === "roastLevel") {
-    return (
-      <>
-        {dataSort
-          .find((item) => item.key === "roastLevel")
-          ?.children.map((item) => (
-            <RadioGroupComp item={item.name} stock={item.stock} />
-          ))}
-      </>
-    );
-  } else if (key === "tasted") {
-    return (
-      <>
-        {dataSort
-          .find((item) => item.key === "tasted")
-          ?.children.map((item) => (
-            <RadioGroupComp item={item.name} stock={item.stock} />
-          ))}
-      </>
-    );
-  } else if (key === "processing") {
-    return (
-      <>
-        {dataSort
-          .find((item) => item.key === "processing")
-          ?.children.map((item) => (
-            <RadioGroupComp item={item.name} stock={item.stock} />
-          ))}
-      </>
-    );
+  if (key === "1") {
+    return;
+  } else if (key === "2") {
+    return <RadioGroupComp />;
   }
 };
 
-const items: CollapseProps["items"] = [
-  {
-    key: "1",
-    label: "Harga",
-    children: renderContent("harga"),
-  },
-  {
-    key: "2",
-    label: "Origin",
-    children: renderContent("origin"),
-  },
-  {
-    key: "3",
-    label: "Species",
-    children: renderContent("species"),
-  },
-  {
-    key: "4",
-    label: "Roast Level",
-    children: renderContent("roastLevel"),
-  },
-  {
-    key: "5",
-    label: "Tested",
-    children: renderContent("tasted"),
-  },
-  {
-    key: "6",
-    label: "Processing",
-    children: renderContent("processing"),
-  },
-];
+const CollapseComp = ({
+  onFilterCategory,
+  selectedCategory,
+  setSelectedCategory,
+}) => {
+  const dispatch = useDispatch();
+  const [categories, setCategories] = useState<string[]>([]);
 
-const CollapseComp = () => {
+  const fetchCategory = async () => {
+    const res = await fetch(`${API_URL}/products/categories`);
+    const data = await res.json();
+    setCategories(data);
+  };
+
+  useEffect(() => {
+    fetchCategory();
+
+    return () => {
+      setCategories([]);
+    };
+  }, []);
+
   const onChange = (key: string | string[]) => {
     console.log(key);
   };
 
+  const onChangeCategory = (e: any) => {
+    console.log("e", e.target.value);
+    setSelectedCategory(e.target.value);
+    onFilterCategory(e.target.value);
+  };
+
+  const items: CollapseProps["items"] = [
+    {
+      key: "1",
+      label: "Category",
+      children: (
+        <div className='flex flex-col gap-2'>
+          {categories.map((category, index) => (
+            <div key={index} className='flex items-center py-2 gap-3  '>
+              <input
+                className='cursor-pointer'
+                type='checkbox'
+                onChange={(e) => onChangeCategory(e)}
+                checked={selectedCategory === category}
+                id={category}
+                name={category}
+                value={category}
+              />
+              <label className='cursor-pointer' htmlFor={category}>
+                {category}
+              </label>
+            </div>
+          ))}
+        </div>
+      ),
+    },
+  ];
+
   return (
     <Collapse
       items={items}
-      defaultActiveKey={["1", "2", "3", "4", "5", "6"]}
+      defaultActiveKey={["1"]}
       onChange={onChange}
       expandIconPosition='end'
       bordered={false}

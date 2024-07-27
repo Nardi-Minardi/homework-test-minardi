@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { API_URL, APP_NAME } from '../../config';
+import { API_AUTH, APP_NAME } from '../../config';
 import Cookies from 'js-cookie';
+import { tokenAuth } from '@/utils/localStorage';
 
 const initialState = {
-  user: {} ,
+  user: {},
   token: '',
   loading: false,
 };
@@ -13,7 +14,7 @@ export const loginUser = createAsyncThunk(
   'auth/login',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${API_URL}/login`, data,
+      const response = await axios.post(`${API_AUTH}/login`, data,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -27,27 +28,28 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-export const registerUser = createAsyncThunk(
-  'auth/register',
-  async (data, { rejectWithValue }) => {
+export const fetchUser = createAsyncThunk(
+  'auth/fetchUser',
+  async (token, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${API_URL}/register`, data,
+      const response = await axios.get(`${API_AUTH}/me`,
         {
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json',
+            'Authorization': `Bearer ${tokenAuth()}`
           }
         });
-      return response;
+      // console.log('response', response.data)
+      return response.data;
     } catch (error) {
-      return rejectWithValue(error.response);
+      return rejectWithValue(error.response.data);
     }
   }
 );
 
 export const logoutUser = createAsyncThunk(
   'auth/logout',
-  async (data,  {rejectWithValue} ) => {
+  async (data, { rejectWithValue }) => {
     try {
       const cookiesName = `${APP_NAME}-token`;
       Cookies.remove(cookiesName);
@@ -63,17 +65,6 @@ const authSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    //register
-    builder.addCase(registerUser.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(registerUser.fulfilled, (state, { payload }) => {
-      state.loading = false;
-    });
-    builder.addCase(registerUser.rejected, (state, { payload }) => {
-      state.loading = false;
-    });
-
     //login
     builder.addCase(loginUser.pending, (state) => {
       state.loading = true;
@@ -82,12 +73,26 @@ const authSlice = createSlice({
       state.user = payload.data?.data;
       state.token = payload.data?.data?.token;
       state.loading = false;
-      //clear error
-     
+
     });
     builder.addCase(loginUser.rejected, (state, { payload }) => {
       state.loading = false;
     });
+
+    //fetch user
+    builder.addCase(fetchUser.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchUser.fulfilled, (state, { payload }) => {
+      state.user = payload.data;
+      state.isAuthenticated = true;
+      state.loading = false;
+    });
+    builder.addCase(fetchUser.rejected, (state, { payload }) => {
+      state.error = payload.data;
+      state.loading = false;
+    });
+
     // logout
     builder.addCase(logoutUser.fulfilled, (state) => {
       state.user = {};

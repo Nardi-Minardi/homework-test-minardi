@@ -1,69 +1,69 @@
-import React from "react";
+import React, {useEffect} from "react";
 import UserDropdown from "../elements/userDropdown";
 import SearchInput from "../elements/searchInput";
 import MenuDropdown from "../elements/menuDropdown";
 import { useDispatch, useSelector } from "react-redux";
-import { listProduct } from "@/store/slices/productSlice";
-import { logoutUser } from "@/store/slices/authSlice";
+import { logoutUser, fetchUser } from "@/store/slices/authSlice";
+import { useGlobalSidebarContext } from "@/context/sidebarContext";
+import { Button } from "antd";
+import Link from "next/link";
 
 const Header = () => {
+  const { isSidebarOpen, closeSidebar, showSidebar } =
+    useGlobalSidebarContext();
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
 
-  const onSearch = (keyword: string) => {
-    dispatch(
-      listProduct({
-        keyword: keyword,
-        price: '',
-        page: 1,
-        limit: 10,
-        order: ["product_name", "asc"],
-      })
-    );
-  };
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, []);
 
   const onLogout = () => {
     dispatch(logoutUser());
     window.location.href = "/";
-  }
+  };
 
   return (
-    <div className='sticky top-0 z-50 w-full'>
-      <div className='shadow-sm bg-white py-4 px-5'>
-        <div className='flex flex-col lg:flex-row xl:flex-row lg:justify-end xl:justify-end w-full'>
-          <div className='flex flex-col lg:flex-row xl:flex-row gap-x-4 items-end'>
-            <SearchInput onSearch={onSearch} />
+    <div className='w-full shadow-md pt-2 bg-white px-5'>
+      <div className='flex flex-col lg:items-center xl:items-center lg:flex-row xl:flex-row lg:justify-between xl:justify-between w-full'>
+        <Link href='/'>
+          <h1 className='text-2xl font-bold'>Home Work</h1>
+        </Link>
+        <div className='flex row justify-between items-center gap-x-4'>
+          {/* hamburger menu */}
 
-            <div className='flex items-center pt-5'>
-              <div className='flex cursor-pointer items-center gap-x-1 rounded-md py-2 px-4 hover:bg-gray-100'>
-                <img src='/heart.svg' className='h-6 w-6' alt='favorite' />
-              </div>
-
-              <div className='flex cursor-pointer items-center gap-x-1 rounded-md py-2 px-4 hover:bg-gray-100'>
-                <div className='relative'>
-                  <img
-                    src='/shopping-bag.svg'
-                    className='h-6 w-6'
-                    alt='account'
-                  />
-                  <span className='absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 p-2 text-xs text-white'>
-                    3
-                  </span>
-                </div>
-              </div>
-
-              <div className='flex cursor-pointer items-center gap-x-1 rounded-md py-2 px-4 hover:bg-gray-100'>
-                <UserDropdown 
-                onLogout={onLogout}
-                />
-              </div>
-            </div>
+          <div
+            className='cursor-pointer'
+            onClick={isSidebarOpen ? closeSidebar : showSidebar}>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              className='h-6 w-6 lg:hidden xl:hidden'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'>
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth={2}
+                d='M4 6h16M4 12h16m-7 6h7'
+              />
+            </svg>
           </div>
-        </div>
-      </div>
-
-      <div className='flex h-auto bg-gray-100 px-4 sm:px-6 lg:px-32 xl:px-32'>
-        <div className='flex h-[5vh] text-white cursor-pointer items-center gap-x-2 bg-red-500 py-6 px-5'>
-          <MenuDropdown />
+          <div className='flex justify-end items-center py-2 px-4 pt-5'>
+            {Object.keys(user).length > 0 ? (
+              <div className='flex cursor-pointer items-center gap-x-1 rounded-md  hover:bg-gray-100'>
+                <UserDropdown
+                user={user}
+                onLogout={onLogout} />
+              </div>
+            ) : (
+              <Link
+                href='/login'
+                className='flex items-center gap-x-1 bg-blue-500 py-1 px-2 rounded-md'>
+                <span className='text-white'>Login</span>
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </div>

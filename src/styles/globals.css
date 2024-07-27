@@ -16,18 +16,6 @@
   background: #EDEDED
 }
 
-/* ant-checkbox-input :checked */
-.ant-checkbox-input:checked + .ant-checkbox-inner {
-  background: #EF4444;
-  border-color: #EF4444;
-}
-
-/* ant-checkbox-input :checked hover */
-.ant-checkbox-input:checked:hover + .ant-checkbox-inner {
-  background: #EF4444 !important;
-  border-color: #EF4444 !important;
-}
-
 .pagination {
   display: flex;
   justify-content: center;
