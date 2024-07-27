@@ -49,7 +49,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 
 ## The project is deployed on Vercel, and you can access it using the following link:
-[https://nextjs-antd-redux-tailwindcss.vercel.app/](https://nextjs-antd-redux-tailwindcss.vercel.app/)
+[https://homework-test-minardi.vercel.app/](https://homework-test-minardi.vercel.app/)
 
 
 ## Credentials for login:
