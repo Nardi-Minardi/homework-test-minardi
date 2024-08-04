@@ -44,6 +44,10 @@ const Home = () => {
     setTotal(filter.length);
   };
 
+  if (loading) {
+    return <LoadingComp />;
+  }
+
   return (
     <HomeLayout>
       <div className='flex flex-col lg:flex-row xl:flex-row gap-x-4 pb-12'>
